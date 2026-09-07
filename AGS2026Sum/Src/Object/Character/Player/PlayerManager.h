@@ -44,6 +44,7 @@ public:
 	void Init(void);
 	void Update(void);
 	void Draw(void);
+	void DrawUI(void);
 	void DrawNormalDepth(void);
 	void Release(void);
 

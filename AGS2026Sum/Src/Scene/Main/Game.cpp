@@ -446,6 +446,11 @@ void Game::Draw(void)
 	//DrawEdge();
 }
 
+void Game::DrawUI(void)
+{
+	player_->DrawUI();
+}
+
 void Game::Release(void)
 {
 	player_->Release();

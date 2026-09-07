@@ -61,6 +61,7 @@ public:
 	void Init(void) override;
 	void Update(void) override;
 	void Draw(void) override;
+	void DrawUI(void)override;
 
 	void Release(void) override;
 	void Reset(void)override;

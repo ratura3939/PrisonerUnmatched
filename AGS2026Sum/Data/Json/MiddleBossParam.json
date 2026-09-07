@@ -1,8 +1,7 @@
 {
-  "hp": 500,
+  "hp": 400,
   "modelName": "MiddleBoss",
   "skill": [
-    "NormalSkill",
     "Jump",
     "Tackle"
   ]

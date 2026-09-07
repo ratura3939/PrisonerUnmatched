@@ -578,7 +578,7 @@ void Camera::Rotation(void)
 
 	using COMMAND = InputManager::INPUT_COMMAND;
 
-	/*if (ins.IsPressed(COMMAND::UP_SUB))
+	if (ins.IsPressed(COMMAND::UP_SUB))
 	{
 		angles_.x -= rotSpeed_.x;
 		if (angles_.x <= LIMIT_X_DW_RAD)
@@ -589,7 +589,7 @@ void Camera::Rotation(void)
 		angles_.x += rotSpeed_.x;
 		if (angles_.x >= LIMIT_X_UP_RAD)
 			angles_.x = LIMIT_X_UP_RAD;
-	}*/
+	}
 	if (ins.IsPressed(COMMAND::LEFT_SUB))
 	{
 		angles_.y -= rotSpeed_.y;

@@ -114,9 +114,7 @@ void PlayerManager::Draw(void)
 {
 	character_->Draw();		//キャラクターの描画
 	attack_->Draw();		//攻撃クラスの描画
-	commandInfo_->Draw();	//攻撃説明の描画
-
-	UIManager2d::GetInstance().Draw(UIManager2d::UI_NAME::OPERATION_INFO);	//操作方法の描画
+	
 	
 #ifdef _DEBUG
 	if (isSpecialAttackReady_) {
@@ -126,6 +124,13 @@ void PlayerManager::Draw(void)
 	attack_->DrawDebug();	//攻撃クラスのデバッグ描画
 	DrawFormatString(30, 280, 0xffffff, L"AttackCansel = %d", static_cast<int>(isEnableAttackInput_));	//現在の攻撃アニメーション登録名の先頭文字を表示(デバッグ用)
 #endif
+}
+
+void PlayerManager::DrawUI(void)
+{
+	commandInfo_->Draw();	//攻撃説明の描画
+
+	UIManager2d::GetInstance().Draw(UIManager2d::UI_NAME::OPERATION_INFO);	//操作方法の描画
 }
 
 void PlayerManager::DrawNormalDepth(void)
