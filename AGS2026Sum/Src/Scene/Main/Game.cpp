@@ -72,22 +72,14 @@ Game::Game(void)
 {
 	isSlowEffect_ = false;
 	slowCnt_ = -1;
-	nextBgmVol_ = 0;
-	switchBgm_ = false;
 
 	prevInputP_ = false;
 	isEnemyUpdate_ = true;
 
-	cameraMoveStartPos_ = CAMERA_START_1;
-	cameraMoveGoalPos_[0] = CAMERA_GOAL_1;
-	cameraMoveGoalPos_[1] = CAMERA_GOAL_2;
 	direcState_ = BOSS_DIRECTION::NONE;
-	cameraShakeCollTimeCnt_ = 0;
-	stayCameraShake_ = false;
 
 	progress_ = GAME_PROGRESS::TUTORIAL;
 
-	isDrawPostEffect_ = false;
 	direcCnt_ = 0;
 
 	update_ = &Game::GameUpdate;
@@ -235,17 +227,6 @@ void Game::InitShader(void)
 	Application& app = Application::GetInstance();
 	int screemWidth = app.GetWindowWidth();
 	int screemHeight = app.GetWindowHeight();
-
-	normalDepthScreen_ = MakeScreen(screemWidth, screemHeight, true);
-
-	edgeMaterial_ = std::make_unique<PixelMaterial>(L"EdgeDetectPS.cso", PS_EDGE_BUFF_NUM);
-	edgeMaterial_->AddConstBuf(FLOAT4{ 0.0f,0.0f,0.0f,1.0f });	//エッジの色
-	edgeMaterial_->AddConstBuf(FLOAT4{ 1.0f / static_cast<float>(screemWidth),1.0f / static_cast<float>(screemHeight),EDGE_DEPTH_THRESHOLD,EDGE_NORMAL_THRESHOLD });	//エッジの色
-	edgeMaterial_->AddTextureBuf(normalDepthScreen_);	//法線・深度描画用スクリーンをテクスチャとして登録
-
-
-	edgeRender_ = std::make_unique<PixelRenderer>();
-	edgeRender_->MakeSquereVertex({ 0,0 }, { screemWidth, screemHeight });
 }
 
 void Game::Update(void)
@@ -348,52 +329,11 @@ void Game::GameUpdate(void)
 
 #pragma endregion
 
-#pragma region BGM
-
-	//BGM切り換え実行中
-	if (switchBgm_) {
-		//音量調整に加算
-		nextBgmVol_ += BGM_VOL_ACC;
-		//sndM.AdjustVolume(switchBgmStr_(SOUND_NAME), nextBgmVol_);			//次のBGMは音量をあげる
-		//sndM.AdjustVolume(nowBgmStr_(SOUND_NAME), (BGM_VOL_MAX - nextBgmVol_));	//現在のBGMは音量を下げる
-
-		//もしボリュームが最大値以上なら
-		if (nextBgmVol_ >= BGM_VOL_MAX) {
-			//音量を最大値に
-			nextBgmVol_ = BGM_VOL_MAX;	
-			//終了処理
-			FinishSwitchBgm();
-		}
-	}
-#pragma endregion
-
 #pragma region カメラ
 
 	camera.SetFollow(player_->GetFocusPos(), player_->GetQua());		//追従対象の更新
 	
 #pragma endregion
-}
-
-
-void Game::DrawEdge(void)
-{
-	int mainScreen = SceneManager::GetInstance().GetMainScreen();
-
-	//法線・深度描画用スクリーンに描画
-	SetDrawScreen(normalDepthScreen_);
-
-	ClearDrawScreen();
-
-	SceneManager::GetInstance().GetCamera().SetBeforeDraw();
-	
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-	player_->DrawNormalDepth();
-
-	// メインに戻す
-	SetDrawScreen(mainScreen);
-
-	edgeMaterial_->SetTextureBuf(0, normalDepthScreen_);
-	edgeRender_->Draw(*edgeMaterial_);
 }
 
 void Game::UpdateTutorial(void)
@@ -469,43 +409,6 @@ void Game::Reset(void)
 	//とりあえずメニューからの復帰時は追従に
 	//メニュー開く直前に変える可能性大
 	SceneManager::GetInstance().GetCamera().ChangeMode(Camera::MODE::FOLLOW);
-}
-
-void Game::StartBossFaze(void)
-{
-	SoundManager& sndM = SoundManager::GetInstance();
-	ChangeActionDirec(ACTION_DIRECTION::SCAN_LINE);
-
-	//sndM.Stop("NomalBgm");	//今まで流していたものを停止
-	//sndM.Stop("BattleBgm");	//今まで流していたものを停止
-	//sndM.Play("WarningBgm");//警告音流す
-
-	//演出初期設定
-	direcState_ = BOSS_DIRECTION::POST_EFFECT;
-	SceneManager::GetInstance().GetCamera().ChangeMode(Camera::MODE::FIXED_POINT);	//演出中はカメラ操作を受け付けない
-}
-
-void Game::ChangeActionDirec(const ACTION_DIRECTION _direc)
-{
-	//とりあえずポストエフェクトを描画するように
-	isDrawPostEffect_ = true;
-
-}
-
-void Game::FinishSwitchBgm(void)
-{
-	SoundManager& sndM = SoundManager::GetInstance();
-	//切り換え終了
-	switchBgm_ = false;
-	//sndM.AdjustVolume(switchBgmStr_, nextBgmVol_);
-	////今まで流していたものを停止
-	//sndM.Stop(nowBgmStr_);	
-	//現在のBGM名と切り替え後のBGM名の切り換え
-	auto ret = nowBgmStr_;
-	nowBgmStr_ = switchBgmStr_;
-	switchBgmStr_ = ret;
-	//初期化
-	nextBgmVol_ = 0;
 }
 
 void Game::StartNextStage(void)

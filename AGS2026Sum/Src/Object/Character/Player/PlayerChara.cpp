@@ -87,9 +87,6 @@ void PlayerChara::DoLoad(void)
 {
 	modelId_ = ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_MDL);	//モデル取得
 
-	normalDepthMaterial_ = std::make_unique<ModelMaterial>(L"SkinVS.cso", VS_SKIN_BUFF_SIZE,L"NormalDepthPS.cso", PS_NORMAL_DEPTH_BUFF_SIZE);	//モデルマテリアル生成
-	normalDepthMaterial_->AddConstBufPS(FLOAT4{ OUTLINE_DEPTH_RANGE, 0.0f, 0.0f, 0.0f });	//カメラの描画距離を渡す
-
 	outlineMaterial_ = std::make_unique<ModelMaterial>(L"SkinOutLineVS.cso", 2, L"SkinOutLinePS.cso", 1);
 	outlineMaterial_->AddConstBufVS(FLOAT4{ 2.0f,0.0f,0.0f,0.0f });
 
@@ -242,12 +239,6 @@ void PlayerChara::Draw(void)
 
 	//HP描画
 	DrawHP();
-}
-
-void PlayerChara::DrawNormalDepth(void)
-{
-	//法線・深度のみ描画
-	modelRenderer_->Draw(modelId_, *normalDepthMaterial_);
 }
 
 void PlayerChara::Release(void)

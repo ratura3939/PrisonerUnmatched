@@ -30,17 +30,6 @@ public:
 		END
 	};
 
-	/// <summary>
-	/// ポストエフェクトの種類
-	/// </summary>
-	enum class ACTION_DIRECTION {
-		NOMAL,
-		BLUR,
-		JUST_DODGE,
-		SCAN_LINE,
-		END
-	};
-
 	//ゲームの進行度
 	enum class GAME_PROGRESS {
 		TUTORIAL,	//チュートリアル
@@ -66,12 +55,6 @@ public:
 	void Release(void) override;
 	void Reset(void)override;
 
-	//ボス出現最初の処理用
-	void StartBossFaze(void);
-
-	//ブラー入れるか入れないか
-	void ChangeActionDirec(const ACTION_DIRECTION _direc);	
-
 	//スロー演出開始
 	void StartSlow(void);
 	//スロー終了
@@ -95,15 +78,9 @@ private:
 	//各種更新
 	void GameUpdate(void);			//ゲーム通常
 
-	//各種描画処理(ポストエフェクト)
-	void DrawEdge(void);	//エッジ描画
-
 	//進行度ごとの更新
 	void UpdateTutorial(void);
 	void UpdateStage1(void);
-
-	//切り換え終了時の処理
-	void FinishSwitchBgm(void);
 	
 	//２ステージ目の開始
 	void StartNextStage(void);
@@ -133,34 +110,15 @@ private:
 	CameraMoveAfter_f processingAfterCameraAutoMove_;
 #pragma endregion
 
-#pragma region shader関連
-	std::unique_ptr<PixelMaterial>edgeMaterial_;	//エッジ描画用マテリアル
-	std::unique_ptr<PixelRenderer>edgeRender_;	//エッジ描画用レンダラー
-	int normalDepthScreen_;	//法線・深度描画用スクリーン
-
-	bool isDrawPostEffect_;	//ポストエフェクトをかけるか
-#pragma endregion
-
-
 #pragma region その他変数
 	//スロー演出
 	bool isSlowEffect_;	//ON/OFFフラグ
 	int slowCnt_;		//カウンタ
 
-	//BGM
-	std::string nowBgmStr_;		//現在のBGM
-	std::string switchBgmStr_;	//切り替え後のBGM
-	int nextBgmVol_;			//音量調整用(BGM切り替え時に使用)
-	bool switchBgm_;			//切り換え開始フラグ
-
 	BOSS_DIRECTION direcState_;		//ボス演出管理
 	int direcCnt_;					//演出に関わるカウンタ
 
 	//カメラの演出用
-	VECTOR cameraMoveStartPos_;							//初期位置
-	VECTOR cameraMoveGoalPos_[CAMERA_DIRECTION_NUM];	//目標位置
-	int cameraShakeCollTimeCnt_;	//画面揺れクールタイム
-	bool stayCameraShake_;			//画面揺れ待機フラグ true=待機
 	int cameraGoalStayTime_;		//カメラ自動移動時、ゴール付近でどれほど滞在するか
 	int cameraGoalStayCounter_;		//カメラ自動移動時、ゴール付近滞在カウンター
 
