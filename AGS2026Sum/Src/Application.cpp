@@ -1,5 +1,6 @@
 #include"pch.h"
 #include<Windows.h>
+#include "Common/SingletonRegistry.h"
 #include "Manager/Generic/ResourceManager.h"
 #include "Manager/Generic/InputManager.h"
 #include "Manager/Generic/SceneManager.h"
@@ -124,6 +125,9 @@ void Application::Destroy(void)
 	InputManager::GetInstance().Destroy();
 	ResourceManager::GetInstance().Destroy();
 	SceneManager::GetInstance().Destroy();
+
+	//シングルトンの解放
+	SingletonRegistry::GetInstance().Delete(SingletonRegistry::DESTROY_TIMING::ALL_END);
 	
 	// Effekseerを終了する。
 	Effkseer_End();

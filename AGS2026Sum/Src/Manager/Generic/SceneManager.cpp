@@ -160,7 +160,7 @@ void SceneManager::Destroy(void)
 	SoundManager::GetInstance().Destroy();
 	EffectManager::GetInstance().Destroy();
 	UIManager2d::GetInstance().Destroy();
-	CollisionManager::GetInstance().DestroyInstance();
+	//CollisionManager::GetInstance().DestroyInstance();
 
 	scenes_.clear();
 
