@@ -34,14 +34,28 @@ public:
 	//ƒVƒ“ƒOƒ‹ƒgƒ“‚Ì”jŠü
 	void Delete(const DESTROY_TIMING _timing)
 	{
-		// “o˜^‚Ì‹t‡‚Å”jŠüiˆË‘¶ŠÖŒW‚ğl—¶j
-		for (auto it = destroyer_[_timing].rbegin(); it != destroyer_[_timing].rend(); ++it) {
-			if (*it == nullptr) continue;
-			(*it)();
+		//”jŠüŠÖ”‚Ìæ“¾
+		auto it = destroyer_.find(_timing);
+
+		//”jŠüŠÖ”‚ª‚È‚¢ê‡‚Í‰½‚à‚µ‚È‚¢
+		if (it == destroyer_.end())
+			return;
+
+		//”jŠüŠÖ”‚ÌÀs
+		for (auto func = it->second.rbegin();
+			func != it->second.rend();
+			++func)
+		{
+			//ŠÖ”‚ª‹ó‚È‚ç‰½‚à‚µ‚È‚¢
+			if (*func == nullptr)
+				continue;
+
+			//ŠÖ”‚ÌÀs
+			(*func)();
 		}
 
-		//”z—ñ‰Šú‰»
-		destroyer_[_timing].clear();
+		//”jŠüŠÖ”‚Ìíœ
+		destroyer_.erase(it);
 	}
 
 private:
