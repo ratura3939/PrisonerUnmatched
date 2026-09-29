@@ -39,7 +39,7 @@ public:
 	// •`‰æˆ—
 	virtual void Draw(void) = 0;
 
-	//UI•`‰æ(ƒQ[ƒ€‘åÕ—p)
+	//UI•`‰æ
 	virtual void DrawUI(void);
 
 	// ‰ğ•úˆ—
