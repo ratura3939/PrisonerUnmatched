@@ -133,11 +133,6 @@ void PlayerManager::DrawUI(void)
 	UIManager2d::GetInstance().Draw(UIManager2d::UI_NAME::OPERATION_INFO);	//操作方法の描画
 }
 
-void PlayerManager::DrawNormalDepth(void)
-{
-	character_->DrawNormalDepth();	//キャラクターの法線深度描画
-}
-
 void PlayerManager::Release(void)
 {
 	character_->Release();	//キャラクターの解放

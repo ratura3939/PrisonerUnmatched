@@ -70,7 +70,9 @@ void PlayerAttack::TryEnableAttackCollider(const float _animRate)
 void PlayerAttack::DrawDebug(void)
 {
 	if (IsEnableCollier()) {
-		DrawSphere3D(pos_, currentData_.radius, 16, debugColor_, debugColor_, false);	//コライダーの描画
+		const int DivNum = 16;	//分割数
+
+		DrawSphere3D(pos_, currentData_.radius, DivNum, debugColor_, debugColor_, false);	//コライダーの描画
 	}
 }
 
@@ -185,7 +187,8 @@ void PlayerAttack::DrawComboRouteElement(const std::string& _attackKey, const VE
 		//矢印の描画
 		DrawRotaGraph(arrowPosX, arrowPosY, arrowExRate, arrowAngle, arrowImage_, true);
 
-		DrawComboRouteElement(nextPunchAttackName, nextPos);	//パンチ派生の描画
+		//パンチ派生の描画
+		DrawComboRouteElement(nextPunchAttackName, nextPos);	
 	}
 
 	if (nextKickAttackName != "") {
@@ -278,7 +281,7 @@ void PlayerAttack::LoadAttackEffect(void)
 	directionNames_.at(KICK_THIRD_KEY).efcName = EFC_NAME::PLAYER_KICK_THIRD;		//キック最終段
 	directionNames_.at(SPECIAL_PUNCH_KEY).efcName = EFC_NAME::PLAYER_PUNCH_SPECIAL;	//パンチ特殊
 	directionNames_.at(SPECIAL_KICK_KEY).efcName = EFC_NAME::PLAYER_KICK_SPECIAL;	//キック特殊
-	directionNames_.at(ULTIMATE_KEY).efcName = EFC_NAME::PLAYER_ULTIMATE;		//必殺技
+	directionNames_.at(ULTIMATE_KEY).efcName = EFC_NAME::PLAYER_ULTIMATE;			//必殺技
 }
 
 void PlayerAttack::RegisterAttackData(void)
