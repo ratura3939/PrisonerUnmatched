@@ -382,8 +382,6 @@ void Game::Draw(void)
 
 	//デバッグ
 	DrawDebug();
-
-	DrawEdge();
 }
 
 void Game::DrawUI(void)
