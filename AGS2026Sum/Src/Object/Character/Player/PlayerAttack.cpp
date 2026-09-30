@@ -84,11 +84,11 @@ void PlayerAttack::DoInit(void)
 	LoadAttackData();
 
 	//各種演出用の空を生成
-	directionNames_.emplace(PUNCH_FIRST_KEY, INIT_ANIM_DIRECTION_INFO);	//パンチ初段
+	directionNames_.emplace(PUNCH_FIRST_KEY, INIT_ANIM_DIRECTION_INFO);		//パンチ初段
 	directionNames_.emplace(PUNCH_SECOND_KEY, INIT_ANIM_DIRECTION_INFO);	//パンチ二段
-	directionNames_.emplace(PUNCH_THIRD_KEY, INIT_ANIM_DIRECTION_INFO);	//パンチ最終段
+	directionNames_.emplace(PUNCH_THIRD_KEY, INIT_ANIM_DIRECTION_INFO);		//パンチ最終段
 	directionNames_.emplace(KICK_FIRST_KEY, INIT_ANIM_DIRECTION_INFO);		//キック初段
-	directionNames_.emplace(KICK_SECOND_KEY, INIT_ANIM_DIRECTION_INFO);	//キック二段
+	directionNames_.emplace(KICK_SECOND_KEY, INIT_ANIM_DIRECTION_INFO);		//キック二段
 	directionNames_.emplace(KICK_THIRD_KEY, INIT_ANIM_DIRECTION_INFO);		//キック最終段
 	directionNames_.emplace(SPECIAL_PUNCH_KEY, INIT_ANIM_DIRECTION_INFO);
 	directionNames_.emplace(SPECIAL_KICK_KEY, INIT_ANIM_DIRECTION_INFO);
@@ -102,6 +102,7 @@ void PlayerAttack::DoInit(void)
 	AttackManager::GetInstance().AddAttackCollider(AttackManager::ATTACK_TYPE::P_ATTACK, colliders_[0]);	//攻撃マネージャーに登録
 
 	ResourceManager& resM = ResourceManager::GetInstance();
+	//コンボルート表記用画像
 	comboElementImages_[static_cast<int>(ATTACK_TYPE::PUNCH)] = resM.Load(ResourceManager::SRC::PUNCH_ATK_ON_OFF_IMG).handleIds_;
 	comboElementImages_[static_cast<int>(ATTACK_TYPE::KICK)] = resM.Load(ResourceManager::SRC::KICK_ATK_ON_OFF_IMG).handleIds_;
 

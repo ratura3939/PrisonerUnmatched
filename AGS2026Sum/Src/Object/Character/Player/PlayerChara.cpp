@@ -231,9 +231,9 @@ void PlayerChara::Draw(void)
 	modelMaterial_->SetTextureBuf(ModelRenderer::CONSTANT_BUF_SLOT_BEGIN_VS_MATRIX, shadow.GetShadowTexture());
 	
 	//アウトライン用描画
-	MV1SetWriteZBuffer(modelId_, false);//モデル描画のZBufferを無効にする
-	MV1SetMeshBackCulling(modelId_, 0, DX_CULLING_RIGHT);	//裏面描画
-	modelRenderer_->Draw(modelId_, *outlineMaterial_);
+	//MV1SetWriteZBuffer(modelId_, false);//モデル描画のZBufferを無効にする
+	//MV1SetMeshBackCulling(modelId_, 0, DX_CULLING_RIGHT);	//裏面描画
+	//modelRenderer_->Draw(modelId_, *outlineMaterial_);
 
 	//本体描画
 	MV1SetWriteZBuffer(modelId_, true);

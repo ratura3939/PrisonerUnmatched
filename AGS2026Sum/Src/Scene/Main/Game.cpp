@@ -443,7 +443,7 @@ void Game::Draw(void)
 	//デバッグ
 	DrawDebug();
 
-	//DrawEdge();
+	DrawEdge();
 }
 
 void Game::DrawUI(void)
