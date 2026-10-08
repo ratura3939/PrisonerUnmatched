@@ -50,7 +50,7 @@ private:
 	void UpdateExRateDecrease(void);
 
 	//デバッグ用
-	void DrawDebug(void);
+	void DrawDebug(void)const;
 
 	//コンボの最大受付時間
 	static constexpr float COMBO_MAX_TIME = 5.0f;

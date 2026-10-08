@@ -100,21 +100,25 @@ void ComboManager::DrawComboUI(void)
 	std::vector<int>digitNumbers;	//桁それぞれを保持
 	int remainingCombo = comboCount_;
 
+	const int maxDigit = 10;	//最大桁数(10桁まで)
+
 	while (remainingCombo > 0) {
 		//一の位を取得
-		int useNumber = remainingCombo % 10;
+		int useNumber = remainingCombo % maxDigit;
 
 		//下位桁から順に保存
 		digitNumbers.push_back(useNumber);
 
 		//一桁分削る
-		remainingCombo /= 10;
+		remainingCombo /= maxDigit;
 	}
+
+	const int numberDistance = 40;	//数字の描画間隔
 
 	//描画位置
 	int numberDrawPos_X = drawStartPosCombo;
 	//数字ごとの描画位置差分
-	const int numberDrwaOffset_X = 40 * Utility::CalculateRatio(EX_RATE_MIN, imageEx_);
+	const int numberDrawOffset_X = numberDistance * static_cast<int>(Utility::CalculateRatio(EX_RATE_MIN, imageEx_));
 
 	//最上位桁(末尾要素)から一の位(先頭要素)へ向かって描画
 	for (auto it = digitNumbers.rbegin(); it != digitNumbers.rend(); ++it) {
@@ -124,7 +128,7 @@ void ComboManager::DrawComboUI(void)
 		DrawRotaGraph(numberDrawPos_X, drawPos_Y, imageEx_, angle, numberImages_[useNumber], true);
 
 		//位置差分(右方向へ)
-		numberDrawPos_X += numberDrwaOffset_X;
+		numberDrawPos_X += numberDrawOffset_X;
 	}
 
 	//「Combo」画像描画位置
@@ -175,7 +179,7 @@ void ComboManager::UpdateExRateDecrease(void)
 	}
 }
 
-void ComboManager::DrawDebug(void)
+void ComboManager::DrawDebug(void)const
 {
 #ifdef _DEBUG
 

@@ -36,12 +36,16 @@ void BossUI::Load(void)
 	float hpWidth = HP_WIDTH * widthRate_;
 	float hpHeight = HP_HEIGHT * heightRate_;
 
-	// 左上・右下
-	healthPos_.x = healthCenter.x - hpWidth * 0.5f;
-	healthPos_.y = healthCenter.y - hpHeight * 0.5f;
+	//半分
+	const float halfHpWidth = hpWidth * 0.5f;
+	const float halfHpHeight = hpHeight * 0.5f;
 
-	healthWH_.x = healthPos_.x + hpWidth;
-	healthWH_.y = healthPos_.y + hpHeight;
+	// 左上・右下
+	healthPos_.x = healthCenter.x - static_cast<int>(halfHpWidth);
+	healthPos_.y = healthCenter.y - static_cast<int>(halfHpHeight);
+
+	healthWH_.x = healthPos_.x + static_cast<int>(hpWidth);
+	healthWH_.y = healthPos_.y + static_cast<int>(hpHeight);
 
 	//アイコン
 	auto& res = ResourceManager::GetInstance();
@@ -52,9 +56,9 @@ void BossUI::Load(void)
 
 	//設定のみ(画像を差し替えて使う)
 	ui.Add(UIManager2d::UI_NAME::ATTACK_ICON, -1, UIManager2d::UI_DIRECTION_2D::ZOOM_INOUT, UIManager2d::UI_DRAW_DIMENSION::DIMENSION_2);
-	VECTOR iconPos;
-	iconPos.x = healthPos_.x + (HP_WIDTH / 2 * widthRate_) + (ICON_LOCAL_POS_X * widthRate_);
-	iconPos.y = healthPos_.y + (HP_HEIGHT / 2 * heightRate_) + (ICON_LOCAL_POS_Y * heightRate_);
+	VECTOR iconPos = Utility::VECTOR_INIT;
+	iconPos.x = healthPos_.x + (halfHpWidth) + (ICON_LOCAL_POS_X * widthRate_);
+	iconPos.y = healthPos_.y + (halfHpHeight) + (ICON_LOCAL_POS_Y * heightRate_);
 	iconPos.z = 0.0f;
 	ui.SetUIDirectionPram(UIManager2d::UI_NAME::ATTACK_ICON, UIManager2d::UI_DIRECTION_GROUP::ZOOM, ICON_ZOOM_SPEED, ICON_ZOOM_MAX, ICON_ZOOM_MIN);
 	ui.SetPos(UIManager2d::UI_NAME::ATTACK_ICON, iconPos);
@@ -68,12 +72,16 @@ void BossUI::Load(void)
 
 	//レンダラー
 	Vector2 gaugePos;
-	gaugePos.x = screenWidth * GAUGE_INFO.anchorX + GAUGE_INFO.offsetX * widthRate_ - GAUGE_SIZE * GAUGE_UV_U * widthRate_;
-	gaugePos.y = screenHeight * GAUGE_INFO.anchorY + GAUGE_INFO.offsetY * heightRate_ - GAUGE_SIZE * GAUGE_UV_V * widthRate_;
+	gaugePos.x = static_cast<int>(screenWidth * GAUGE_INFO.anchorX + GAUGE_INFO.offsetX * widthRate_ - GAUGE_SIZE * GAUGE_UV_U * widthRate_);
+	gaugePos.y = static_cast<int>(screenHeight * GAUGE_INFO.anchorY + GAUGE_INFO.offsetY * heightRate_ - GAUGE_SIZE * GAUGE_UV_V * heightRate_);
 
+	//レンダラーの生成
 	renderer_ = std::make_unique<PixelRenderer>();
 	renderer_->SetPos(gaugePos);
-	renderer_->SetSize(Vector2(GAUGE_SIZE * widthRate_, GAUGE_SIZE * widthRate_));
+	Vector2 rendererSize;
+	rendererSize.x = static_cast<int>(GAUGE_SIZE * widthRate_);
+	rendererSize.y = static_cast<int>(GAUGE_SIZE * heightRate_);
+	renderer_->SetSize(rendererSize);
 	renderer_->MakeSquereVertex();
 }
 
@@ -88,10 +96,10 @@ void BossUI::Draw(void)
 
 	// 枠
 	DrawBox(
-		healthPos_.x - HP_WINDOW * widthRate_,
-		healthPos_.y - HP_WINDOW * heightRate_,
-		healthWH_.x + HP_WINDOW * widthRate_,
-		healthWH_.y + HP_WINDOW * heightRate_,
+		healthPos_.x - static_cast<int>(HP_WINDOW * widthRate_),
+		healthPos_.y - static_cast<int>(HP_WINDOW * heightRate_),
+		healthWH_.x + static_cast<int>(HP_WINDOW * widthRate_),
+		healthWH_.y + static_cast<int>(HP_WINDOW * heightRate_),
 		0x000000,
 		true);
 
@@ -101,8 +109,8 @@ void BossUI::Draw(void)
 		DrawBox(
 			healthPos_.x,
 			healthPos_.y,
-			healthPos_.x + (HP_WIDTH * widthRate_) * (hp / hpMax),
-			healthPos_.y + (HP_HEIGHT * heightRate_),
+			healthPos_.x + static_cast<int>((HP_WIDTH * widthRate_) * (hp / hpMax)),
+			healthPos_.y + static_cast<int>(HP_HEIGHT * heightRate_),
 			0xff8888,
 			true);
 	}
@@ -114,7 +122,7 @@ void BossUI::Draw(void)
 	{
 
 	}
-	else if(skill->GetAttackElement() != AttackDataBase::ATTACK_ELEMENT::NORMAL && !skill->IsEnd())
+	else if (skill->GetAttackElement() != AttackDataBase::ATTACK_ELEMENT::NORMAL && !skill->IsEnd())
 	{
 		//UI見やすさ用の背景（■）
 		const int circleSize = 35;
@@ -124,9 +132,9 @@ void BossUI::Draw(void)
 
 		VECTOR iconDrawPos = ui.GetDrawPos(UIManager2d::UI_NAME::ATTACK_ICON);
 
-		DrawBox(static_cast<int>(iconDrawPos.x)- bocWidthHalf, static_cast<int>(iconDrawPos.y) - bocHeightHalf,
-			static_cast<int>(iconDrawPos.x) + bocWidthHalf, static_cast<int>(iconDrawPos.y) + bocHeightHalf, 
-			white,true);
+		DrawBox(static_cast<int>(iconDrawPos.x) - bocWidthHalf, static_cast<int>(iconDrawPos.y) - bocHeightHalf,
+			static_cast<int>(iconDrawPos.x) + bocWidthHalf, static_cast<int>(iconDrawPos.y) + bocHeightHalf,
+			white, true);
 
 		ui.SetImage(UIManager2d::UI_NAME::ATTACK_ICON, atkIcon_[static_cast<int>(skill->GetAttackElement())]);
 		ui.Update(UIManager2d::UI_NAME::ATTACK_ICON);
@@ -139,14 +147,10 @@ void BossUI::Draw(void)
 	float progress = guard / GuardMax;
 	progress = std::max(progress, 0.0f);
 
-	//ガード耐久値が残っているなら
-	//if (guard > 0.0f)
-	{
-		//定数バッファの更新と描画
-		material_->SetConstBuf(0, {GAUGE_UV_U,GAUGE_UV_V,progress,0.0f});
-		material_->SetConstBuf(1, { GAUGE_RADIUS,0.0f,0.0f,0.0f });
-		renderer_->Draw(*material_);
-	}
+	//定数バッファの更新と描画
+	material_->SetConstBuf(0, { GAUGE_UV_U,GAUGE_UV_V,progress,0.0f });
+	material_->SetConstBuf(1, { GAUGE_RADIUS,0.0f,0.0f,0.0f });
+	renderer_->Draw(*material_);
 }
 
 void BossUI::SetDrawBoss(const EnemyBase* _boss)
