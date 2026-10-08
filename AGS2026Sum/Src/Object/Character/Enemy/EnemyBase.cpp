@@ -283,8 +283,8 @@ void EnemyBase::InitWithGroup(void)
 void EnemyBase::InitRunTimeParameter(const EnemyParameter& _param)
 {
 	//体力の初期化
-	hp_ = _param.initHp;
-	hpMax_ = _param.initHp;
+	hp_ = static_cast<float>(_param.initHp);
+	hpMax_ = static_cast<float>(_param.initHp);
 }
 
 void EnemyBase::SetModel(const int _modelId)

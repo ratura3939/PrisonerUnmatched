@@ -29,8 +29,8 @@ void BossUI::Load(void)
 
 	// 中心座標
 	Vector2 healthCenter;
-	healthCenter.x = screenWidth * HP_INFO.anchorX + HP_INFO.offsetX * widthRate_;
-	healthCenter.y = screenHeight * HP_INFO.anchorY + HP_INFO.offsetY * heightRate_;
+	healthCenter.x = static_cast<int>(screenWidth * HP_INFO.anchorX + HP_INFO.offsetX * widthRate_);
+	healthCenter.y = static_cast<int>(screenHeight * HP_INFO.anchorY + HP_INFO.offsetY * heightRate_);
 
 	// サイズ
 	float hpWidth = HP_WIDTH * widthRate_;

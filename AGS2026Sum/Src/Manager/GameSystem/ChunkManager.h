@@ -42,8 +42,8 @@ private:
 	static constexpr int CELL_NUM = 100;
 
 	//チャンクの数
-	static constexpr int CHUNK_X = CELL_SIZE / CELL_NUM;		//チャンクのXの数
-	static constexpr int CHUNK_Z = CELL_SIZE / CELL_NUM;		//チャンクのZの数
+	static constexpr int CHUNK_X = static_cast<int>(CELL_SIZE / CELL_NUM);		//チャンクのXの数
+	static constexpr int CHUNK_Z = static_cast<int>(CELL_SIZE / CELL_NUM);		//チャンクのZの数
 
 	//コンストラクタ
 	ChunkManager();

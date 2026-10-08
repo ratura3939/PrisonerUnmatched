@@ -31,7 +31,7 @@ struct AttackDataBase
 	virtual ~AttackDataBase(void) = default;
 
 	//文字列をキャスト
-	const ATTACK_ELEMENT& CastStringToElement(const std::string& _elementStr)
+	const ATTACK_ELEMENT CastStringToElement(const std::string& _elementStr)
 	{
 		if (_elementStr == "Normal") return ATTACK_ELEMENT::NORMAL;
 		else if (_elementStr == "Tackle") return ATTACK_ELEMENT::TACKLE;

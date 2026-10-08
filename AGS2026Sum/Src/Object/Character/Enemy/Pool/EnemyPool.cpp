@@ -47,7 +47,7 @@ EnemyBase* EnemyPool::Spawn(const ENEMY_TYPE& _type)
 		enemy->InitRunTimeParameter(factory_.GetParam(_type));
 
 		//生存リストの末尾に追加するのでその添え字を設定
-		enemy->SetActiveIndex(activeEnemys_.size());
+		enemy->SetActiveIndex(static_cast<int>(activeEnemys_.size()));
 
 		//再利用する敵を生存リストの末尾に追加
 		activeEnemys_.push_back(enemy);
@@ -63,7 +63,7 @@ EnemyBase* EnemyPool::Spawn(const ENEMY_TYPE& _type)
 	std::unique_ptr<EnemyBase> enemy = factory_.CreateNewEnemy(_type);
 
 	//生成した敵の添え字を設定
-	enemy->SetActiveIndex(activeEnemys_.size());
+	enemy->SetActiveIndex(static_cast<int>(activeEnemys_.size()));
 
 	//生成した敵の参照用生ポインタ
 	EnemyBase* enemyPtr = enemy.get();

@@ -12,6 +12,7 @@ struct EnemySkillDatas
 		if ("NormalSkill" == _type) return AttackDataBase::ATTACK_ELEMENT::NORMAL;
 		if ("Tackle" == _type) return AttackDataBase::ATTACK_ELEMENT::TACKLE;
 		if ("Jump" == _type) return AttackDataBase::ATTACK_ELEMENT::JUMP;
+		return AttackDataBase::ATTACK_ELEMENT::NORMAL;
 	}
 
 	//スキル達のデータ

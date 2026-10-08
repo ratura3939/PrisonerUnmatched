@@ -213,8 +213,8 @@ void EnemyManager::CreateStageEnemy(const StageEnemyData::AllEnemysInfo& _enemyI
 		randPos = randArea.center;
 
 		//そこから少しずらす
-		randPos.x += Utility::GetRandomValue(-randArea.size, randArea.size);
-		randPos.z += Utility::GetRandomValue(-randArea.size, randArea.size);
+		randPos.x += Utility::GetRandomValue(static_cast<int>(-randArea.size), static_cast<int>(randArea.size));
+		randPos.z += Utility::GetRandomValue(static_cast<int>(-randArea.size), static_cast<int>(randArea.size));
 
 		//生成
 		CreateEnemyGroup(_enemyInfo.enemyNum, randPos, ENEMY_TYPE::NORMAL, EVENT_TYPE::NONE);
@@ -352,7 +352,7 @@ void EnemyManager::DecideOrderByDistance(void)
 		if (group->IsEmpty())continue;
 
 		//プレイヤーからの距離を取得
-		float sqrDist = Utility::SqrMagnitude(group->GetGroupPos(), playerPos_);
+		float sqrDist = static_cast<float>(Utility::SqrMagnitude(group->GetGroupPos(), playerPos_));
 
 		//プレイヤーから一定距離以上離れているグループは無視する
 		if (sqrDist < PLAYER_ATTACK_RADIUS * PLAYER_ATTACK_RADIUS)
@@ -420,7 +420,7 @@ void EnemyManager::SetBossUI(void)
 			if (!enemy->IsBoss())continue;
 
 			//距離
-			dist = Utility::Distance(enemy->GetPos(), playerPos_);
+			dist = static_cast<float>(Utility::Distance(enemy->GetPos(), playerPos_));
 
 			//距離比較
 			if (dist < closestDist)

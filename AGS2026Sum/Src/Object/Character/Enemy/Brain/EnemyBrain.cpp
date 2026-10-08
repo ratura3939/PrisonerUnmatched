@@ -54,7 +54,7 @@ void EnemyBrain::ChoiceAttackSkill(void)
 	}
 
 	//候補からランダム
-	int rand = Utility::GetRandomValue(0, skills.size() - 1);
+	int rand = Utility::GetRandomValue(0, static_cast<int>(skills.size()) - 1);
 
 	//選ばれたスキル
 	EnemySkillBase* choiceSkill = skills[rand].get();

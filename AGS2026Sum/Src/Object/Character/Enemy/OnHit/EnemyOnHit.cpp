@@ -16,7 +16,7 @@
 
 EnemyOnHit::EnemyOnHit(EnemyBase& _parent)
 	: parent_(_parent)
-	, cnt_(INT_MAX)
+	, cnt_(FLT_MAX)
 {
 	//状態生成関数
 	createState_.emplace("Stagger", &EnemyOnHit::CreateStagger);
