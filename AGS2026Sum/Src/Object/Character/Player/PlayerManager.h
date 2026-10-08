@@ -44,7 +44,7 @@ public:
 	void Init(void);
 	void Update(void);
 	void Draw(void);
-	void DrawNormalDepth(void);
+	void DrawUI(void);
 	void Release(void);
 
 	//位置・回転取得

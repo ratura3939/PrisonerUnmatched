@@ -20,6 +20,9 @@ void SceneBase::Draw(void)
 {
 }
 
+void SceneBase::DrawUI(void)
+{}
+
 void SceneBase::Release(void)
 {
 }

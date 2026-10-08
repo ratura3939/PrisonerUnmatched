@@ -39,6 +39,9 @@ public:
 	// •`‰æˆ—
 	virtual void Draw(void) = 0;
 
+	//UI•`‰æ
+	virtual void DrawUI(void);
+
 	// ‰ğ•úˆ—
 	virtual void Release(void) = 0;
 

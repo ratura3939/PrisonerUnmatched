@@ -114,9 +114,7 @@ void PlayerManager::Draw(void)
 {
 	character_->Draw();		//キャラクターの描画
 	attack_->Draw();		//攻撃クラスの描画
-	commandInfo_->Draw();	//攻撃説明の描画
-
-	UIManager2d::GetInstance().Draw(UIManager2d::UI_NAME::OPERATION_INFO);	//操作方法の描画
+	
 	
 #ifdef _DEBUG
 	if (isSpecialAttackReady_) {
@@ -128,9 +126,11 @@ void PlayerManager::Draw(void)
 #endif
 }
 
-void PlayerManager::DrawNormalDepth(void)
+void PlayerManager::DrawUI(void)
 {
-	character_->DrawNormalDepth();	//キャラクターの法線深度描画
+	commandInfo_->Draw();	//攻撃説明の描画
+
+	UIManager2d::GetInstance().Draw(UIManager2d::UI_NAME::OPERATION_INFO);	//操作方法の描画
 }
 
 void PlayerManager::Release(void)

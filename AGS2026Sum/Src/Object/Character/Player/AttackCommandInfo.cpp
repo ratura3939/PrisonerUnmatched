@@ -174,11 +174,15 @@ void AttackCommandInfo::DrawGuide(void)
 
 	for (int i = 0;i < static_cast<int>(BUTTON_TYPE::MAX);i++) {
 		int useImage = commandGuides_[static_cast<int>(useType_)][i];
+
+		//画像がある場合
 		if (useImage != -1) {
 			VECTOR drawPos = VAdd(centerPos_, DIFF_GUIDE_BUTON[i]);
 			const int circleSize = 40;
 			const int white = 0xffffff;
+			//下地（円）の描画
 			DrawCircle(static_cast<int>(drawPos.x), static_cast<int>(drawPos.y), circleSize, white);
+			//UI画像の描画
 			DrawRotaGraph(static_cast<int>(drawPos.x), static_cast<int>(drawPos.y), guideIconExRate_, angle, useImage, true);
 		}
 	}

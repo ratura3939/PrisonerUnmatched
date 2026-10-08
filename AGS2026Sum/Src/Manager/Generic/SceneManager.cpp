@@ -145,6 +145,11 @@ void SceneManager::Draw(void)
 	//ƒGƒtƒFƒNƒVƒA•`‰æ
 	DrawEffekseer3D();
 
+	//ƒV[ƒ“‚Ì‰º‘w‚©‚ç‡‚É•`‰æ
+	for (auto& scene : scenes_) {
+		scene->DrawUI();
+	}
+
 	// ˆÃ“]E–¾“]
 	fader_->Draw();
 

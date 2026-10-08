@@ -29,6 +29,12 @@ namespace {
 	const int BUFFER_MATRIX_SIZE = 2;	//マトリックスの大きさ
 
 	const float OUTLINE_DEPTH_RANGE = 500.0f;	//アウトライン描画の深度範囲
+
+	const int OUTLINE_VS_BUFF_NUM = 2;	//アウトラインVSのバッファの数
+	const int OUTLINE_PS_BUFF_NUM = 1;	//アウトラインPSのバッファの数
+
+	const float OUTLINE_WIDTH = 2.0f;	//アウトラインの幅
+	const FLOAT4 OUTLINE_COLOR = { 0.0f,0.0f,0.0f,1.0f };	//アウトラインの色
 }
 
 PlayerChara::PlayerChara(void)
@@ -87,17 +93,16 @@ void PlayerChara::DoLoad(void)
 {
 	modelId_ = ResourceManager::GetInstance().LoadModelDuplicate(ResourceManager::SRC::PLAYER_MDL);	//モデル取得
 
-	normalDepthMaterial_ = std::make_unique<ModelMaterial>(L"SkinVS.cso", VS_SKIN_BUFF_SIZE,L"NormalDepthPS.cso", PS_NORMAL_DEPTH_BUFF_SIZE);	//モデルマテリアル生成
-	normalDepthMaterial_->AddConstBufPS(FLOAT4{ OUTLINE_DEPTH_RANGE, 0.0f, 0.0f, 0.0f });	//カメラの描画距離を渡す
-
-	outlineMaterial_ = std::make_unique<ModelMaterial>(L"SkinOutLineVS.cso", 2, L"SkinOutLinePS.cso", 1);
-	outlineMaterial_->AddConstBufVS(FLOAT4{ 2.0f,0.0f,0.0f,0.0f });
+	outlineMaterial_ = std::make_unique<ModelMaterial>(L"SkinOutLineVS.cso", OUTLINE_VS_BUFF_NUM, L"SkinOutLinePS.cso", OUTLINE_PS_BUFF_NUM);
+	outlineMaterial_->AddConstBufVS(FLOAT4{ OUTLINE_WIDTH,0.0f,0.0f,0.0f });
 
 	auto& camera = SceneManager::GetInstance().GetCamera();
 	const VECTOR& cameraPos = camera.GetPos();
 	const VECTOR& forward = camera.GetForward();
 	outlineMaterial_->AddConstBufVS(FLOAT4{ cameraPos.x, cameraPos.y, cameraPos.z, 0.0f });
-	outlineMaterial_->AddConstBufPS(FLOAT4{ 0.0f,0.0f,0.0f,1.0f });
+	//黒色に
+	outlineMaterial_->AddConstBufPS(OUTLINE_COLOR);
+
 	modelMaterial_ = std::make_unique<ModelMaterial>(L"SkinVS.cso", VS_SKIN_BUFF_SIZE,L"StdModelPS.cso", PS_SKIN_BUFF_SIZE, BUFFER_MATRIX_SIZE);	//モデルマテリアル生成
 	modelMaterial_->AddConstBufPS(FLOAT4{ 1.0f,1.0f,1.0f,1.0f });
 	modelMaterial_->AddConstBufPS(FLOAT4{ forward.x,forward.y,forward.z,1.0f });
@@ -121,7 +126,6 @@ void PlayerChara::DoLoad(void)
 
 void PlayerChara::DoInit(void)
 {
-	//pos_ = Utility::VECTOR_ZERO;
 	pos_ = INIT_POS;
 	movedPos_ = pos_;	
 	moveSpeed_ = MOVE_SPEED;
@@ -211,7 +215,6 @@ void PlayerChara::DrawHP(void)
 void PlayerChara::Draw(void)
 {
 	const VECTOR& cameraPos = SceneManager::GetInstance().GetCamera().GetPos();
-	//DrawFormatString(10, 30, 0xffffff, L"PlayerPos: %f, %f, %f,\nInputDir: %f, %f, %f\nCameraPos: %f, %f, %f", pos_.x, pos_.y, pos_.z, inputDir_.x, inputDir_.y, inputDir_.z, cameraPos.x, cameraPos.y, cameraPos.z);
 
 	//描画
 	outlineMaterial_->SetConstBufVS(1,FLOAT4{ cameraPos.x, cameraPos.y, cameraPos.z, 0.0f });
@@ -242,12 +245,6 @@ void PlayerChara::Draw(void)
 
 	//HP描画
 	DrawHP();
-}
-
-void PlayerChara::DrawNormalDepth(void)
-{
-	//法線・深度のみ描画
-	modelRenderer_->Draw(modelId_, *normalDepthMaterial_);
 }
 
 void PlayerChara::Release(void)
