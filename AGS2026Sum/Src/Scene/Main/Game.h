@@ -61,7 +61,7 @@ public:
 	void EndSlow(void);	
 
 	//カメラのゴール付近滞在時間
-	void SetCameraStayTimeAtAutoMove(const float _time) { cameraGoalStayTime_ = _time; }
+	void SetCameraStayTimeAtAutoMove(const float _time) { cameraGoalStayTime_ = static_cast<int>(_time); }
 
 	/// <summary>
 	/// カメラ自動移動後の独自処理設定
