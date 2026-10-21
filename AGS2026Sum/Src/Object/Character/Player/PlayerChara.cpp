@@ -208,8 +208,8 @@ void PlayerChara::DrawHP(void)
 	const int RED = 0xff0000;
 	const int GREEN = 0x00ff00;
 
-	DrawBox(boxStart_X, boxStart_Y, boxStart_X + (boxXDiff * HP_MAX / HP_MAX), boxEnd_Y, GLAY, true);
-	DrawBox(boxStart_X, boxStart_Y, boxStart_X + (boxXDiff * hp_ / HP_MAX), boxEnd_Y, GREEN, true);
+	DrawBox(boxStart_X, boxStart_Y, static_cast<int>(boxStart_X + (boxXDiff * HP_MAX / HP_MAX)), boxEnd_Y, GLAY, true);
+	DrawBox(boxStart_X, boxStart_Y, static_cast<int>(boxStart_X + (boxXDiff * hp_ / HP_MAX)), boxEnd_Y, GREEN, true);
 }
 
 void PlayerChara::Draw(void)

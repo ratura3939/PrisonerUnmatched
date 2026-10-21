@@ -46,7 +46,7 @@ public:
 	const VECTOR& GetDown(void) const;
 
 	// ‘ÎÛ•ûŒü‚ğæ“¾
-	const VECTOR& GetDir(const VECTOR& _vec) const;
+	const VECTOR GetDir(const VECTOR& _vec) const;
 
 	//ŠƒRƒ‰ƒCƒ_
 	const std::vector<std::shared_ptr<Collider>>& GetColliders(void);

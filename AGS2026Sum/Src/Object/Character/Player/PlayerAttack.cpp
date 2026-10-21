@@ -486,7 +486,7 @@ const PlayerAttack::AttackAnimationInfo PlayerAttack::GetCurrentAttackAnimInfo(v
 	return	ret;
 }
 
-const PlayerAttack::AttackAnimationInfo PlayerAttack::GetNextAttackAnimInfo(void) const
+const PlayerAttack::AttackAnimationInfo& PlayerAttack::GetNextAttackAnimInfo(void) const
 {
 	if(nextAttackName_ == "") {
 		return AttackAnimationInfo();	//攻撃なし

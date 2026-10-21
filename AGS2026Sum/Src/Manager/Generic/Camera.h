@@ -130,8 +130,8 @@ public:
 	void SetRotSpeed(const VECTOR& _speed);
 
 	//視線取得
-	const VECTOR& GetCameraRay(void)const;
-	const VECTOR& GetCameraRayNormalised(void)const;
+	const VECTOR GetCameraRay(void)const;
+	const VECTOR GetCameraRayNormalised(void)const;
 
 	//カメラモードの変更
 	void ChangeMode(MODE mode);
