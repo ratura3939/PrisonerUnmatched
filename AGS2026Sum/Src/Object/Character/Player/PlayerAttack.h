@@ -75,7 +75,7 @@ public:
 	void FinishAttack(void);	//攻撃終了処理
 
 	const AttackAnimationInfo GetCurrentAttackAnimInfo(void)const;	//現在の攻撃アニメーション情報の取得
-	const AttackAnimationInfo& GetNextAttackAnimInfo(void)const;		//次の攻撃アニメーション情報の取得
+	const AttackAnimationInfo GetNextAttackAnimInfo(void)const;		//次の攻撃アニメーション情報の取得
 	const AttackDirectionInfo& GetNextAttackDirectionInfo(void)const;//次の攻撃のSE/エフェクトに関する情報の取得
 
 	const std::string& GetCurrentAttackKnockBackType(void)const;	//現在の攻撃のノックバックの種類の取得
